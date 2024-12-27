@@ -597,3 +597,17 @@ section{
    }
 
 }
+.print-btn {
+   display: flex;
+   justify-content: center;
+   /* align-items: center; */
+   padding: 5px 10px;
+   background: #4caf50;
+   color: #fff;
+   text-decoration: none;
+   border-radius: 5px;
+   margin-top: 5px;
+}
+.print-btn:hover {
+   background: #45a049;
+}

@@ -2,6 +2,10 @@
 
 @include 'config.php';
 
+if (isset($_GET['delete_all'])) {
+   mysqli_query($conn, "DELETE FROM `cart`");
+}
+
 if(isset($_POST['add_to_cart'])){
 
    $product_name = $_POST['product_name'];
