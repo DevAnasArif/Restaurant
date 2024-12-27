@@ -2,6 +2,10 @@
 
 @include 'config.php';
 
+if(isset($_GET['delete_all'])){
+   mysqli_query($conn, "DELETE FROM `cart`");
+}
+
 if(isset($_POST['order_btn'])){
 
    $name = $_POST['name'];
@@ -20,7 +24,7 @@ if(isset($_POST['order_btn'])){
    if(mysqli_num_rows($cart_query) > 0){
       while($product_item = mysqli_fetch_assoc($cart_query)){
          $product_name[] = $product_item['name'] .' ('. $product_item['quantity'] .') ';
-         $product_price = number_format($product_item['price'] * $product_item['quantity']);
+         $product_price = $product_item['price'] * $product_item['quantity'];
          $price_total += $product_price;
       };
    };
@@ -45,7 +49,7 @@ if(isset($_POST['order_btn'])){
             <p> your payment mode : <span>".$method."</span> </p>
             <p>(*pay when product arrives*)</p>
          </div>
-            <a href='products.php' class='btn'>continue shopping</a>
+            <a href='checkout.php?delete_all' onclick='return confirm('are you sure you want to delete all?');' class='btn'>Done</a>
          </div>
       </div>
       ";
@@ -89,7 +93,7 @@ if(isset($_POST['order_btn'])){
          $grand_total = 0;
          if(mysqli_num_rows($select_cart) > 0){
             while($fetch_cart = mysqli_fetch_assoc($select_cart)){
-            $total_price = number_format($fetch_cart['price'] * $fetch_cart['quantity']);
+            $total_price = $fetch_cart['price'] * $fetch_cart['quantity'];
             $grand_total = $total += $total_price;
       ?>
       <span><?= $fetch_cart['name']; ?>(<?= $fetch_cart['quantity']; ?>)</span>
@@ -144,13 +148,16 @@ if(isset($_POST['order_btn'])){
             <input type="text" placeholder="e.g. india" name="country" required>
          </div>
          <div class="inputBox">
-            <span>pin code</span>
+            <span>pin code</span>     <div class="0">
+         </div>
             <input type="text" placeholder="e.g. 123456" name="pin_code" required>
          </div>
       </div>
+      <center>
       <input type="submit" value="order now" name="order_btn" class="btn">
+      <a href="products.php" class="btn">Go to Product Page</a>
+      </center>
    </form>
-
 </section>
 
 </div>
